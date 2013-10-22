@@ -1,0 +1,136 @@
+package com.notpongwars.game;
+
+import android.content.Context;
+import android.preference.PreferenceManager;
+
+import com.notpongwars.game.GameSettings.InputType;
+import com.notpongwars.game.GameSettings.MultiplayerType;
+
+abstract class Settings {
+	public float playerPaddleSpeed = 0;
+	public float enemyAwareness = 0;
+	public float enemyPaddleSpeed= 0;
+	public float ballSpeed = 0;
+	public int endScore = 5;
+	public boolean musicOn = true;
+	public boolean soundsOn = true;
+
+	public MultiplayerType multiplayerType = MultiplayerType.NULL;
+	public InputType inputType = InputType.TOUCH_ONLY;
+}
+
+
+public class GameSettings{
+	Settings settings;
+	
+	public enum MultiplayerType{
+		NULL,
+		SERVER,
+		CLIENT
+	}
+	
+	public enum InputType { 
+		ACCELEROMETER,
+		TOUCH_ONLY
+	}
+
+	//--------------------- Constructors
+	public GameSettings(Context context){
+		settings = new DefaultSettings();
+		
+		getPreferences(context);
+		
+	}
+	
+	public GameSettings(Context context, int difficulty){
+		switch(difficulty){
+		case 0: settings = new EasySettings();
+		case 1: settings = new NormalSettings();
+		case 2: settings = new HardSettings();
+		case 3: settings = new ImpossibruSettings();
+		}
+		getPreferences(context);
+
+	}
+
+	public GameSettings(Context context, int difficulty, InputType inputType){
+		this(context, difficulty);
+
+		settings.inputType = inputType;
+
+	}
+
+	public GameSettings(Context context, MultiplayerType multiplayerType){
+		this(context);
+		settings.multiplayerType = multiplayerType;
+	}
+
+	public GameSettings(Context context, int difficulty, InputType inputType, boolean muteMusic, boolean muteSounds){
+		this(context, difficulty, inputType);
+
+		settings.musicOn = muteMusic;
+		settings.soundsOn = muteSounds;
+	}
+	//End 
+
+	//--------------------- Class Methods
+	public float getPlayerPaddleSpeed(){ return settings.playerPaddleSpeed;}
+	public float getEnemyAwareness(){ return settings.enemyAwareness;}
+	public float getEnemyPaddleSpeed(){return settings.enemyPaddleSpeed;}
+	public float getBallSpeed(){return settings.ballSpeed;}
+	public float getEndScore(){return settings.endScore;}
+	public boolean getMuteMusic(){return settings.musicOn;}
+	public boolean getMuteSounds(){return settings.soundsOn;}
+	public boolean getMultiplayerTypeIsServer(){return settings.multiplayerType == MultiplayerType.SERVER;}
+	public MultiplayerType getMultiplayerType(){return settings.multiplayerType;}
+	public InputType getInputType(){return settings.inputType;}
+	
+	private void getPreferences(Context context){
+		settings.musicOn = Boolean.parseBoolean(PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).getString("music", "true"));
+		settings.soundsOn = Boolean.parseBoolean(PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).getString("sounds", "true"));
+		settings.endScore = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).getString("endScore", "5"));
+	}
+	//End 
+
+	//--------------------- Default Settings 
+	private class DefaultSettings extends Settings{
+
+	}
+	
+	private class MultiplayerSettings extends Settings{
+		public MultiplayerSettings(MultiplayerType type){
+			multiplayerType = type;
+
+		}
+	}
+	
+	private class EasySettings extends Settings{
+		public EasySettings(){
+			playerPaddleSpeed = 1;
+			enemyAwareness = 100;
+		}
+	}
+
+	private class NormalSettings extends Settings{
+		public NormalSettings(){
+			playerPaddleSpeed = 1;
+			enemyAwareness = 100;
+		}
+	}
+
+	private class HardSettings extends Settings{
+		public HardSettings(){
+			playerPaddleSpeed = 1;
+			enemyAwareness = 100;
+		}
+	}
+
+	private class ImpossibruSettings extends Settings{
+		public ImpossibruSettings(){
+			playerPaddleSpeed = 1;
+			enemyAwareness = 100;
+		}
+	}
+	//End
+}
+

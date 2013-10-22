@@ -1,0 +1,177 @@
+package com.notpongwars.activities;
+
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.view.*;
+import android.widget.Toast;
+import android.app.Activity;
+
+import com.notslip.notpongwars.R;
+import com.notpongwars.core.AudioPlayer;
+import com.notpongwars.core.bluetooth.BluetoothManager;
+import com.notpongwars.core.bluetooth.BluetoothService;
+import com.notpongwars.core.bluetooth.DeviceListActivity;
+import com.notpongwars.game.GameSettings;
+import com.notpongwars.game.GameSettings.MultiplayerType;
+import com.notpongwars.game.NotPongWarsMultiplayerGame;
+
+
+public class MultiplayerActivity extends Activity {
+
+	private String mConnectedDeviceName;
+
+	// Debugging
+	private static final String TAG = "MultiplayerActivity";
+	private static final boolean D = true;
+
+	//Bluetooth
+	BluetoothManager btManager;
+	
+	//Game
+	NotPongWarsMultiplayerGame game;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+		//CONNECT BLUETOOTH
+		btManager = new BluetoothManager(this, btHandler);
+
+		//AudioPlayer.playMusic(R.raw.music);
+<<<<<<< local
+
+		GameSettings gameSettings = new GameSettings(this, MultiplayerType.NULL); //CHANGE TYPE!!
+		//If it's client, update game settings with server settings.
+		
+		game = new NotPongWarsMultiplayerGame(this, gameSettings, btManager);
+		setContentView(game);
+=======
+        
+        GameSettings gameSettings = new GameSettings(this, MultiplayerType.NULL); //CHANGE TYPE!!
+        //If it's client, update game settings with server settings.
+        
+        setContentView(new NotPongWarsMultiplayerGame(this, gameSettings, btManager));
+>>>>>>> other
+	}
+
+
+	@Override
+	protected void onStart() {
+		btManager.onStart();
+
+		super.onStart();
+	}
+
+	@Override
+	protected void onResume() {
+		btManager.onResume();
+
+		super.onResume();
+	}
+
+	@Override
+	protected void onDestroy() {
+		AudioPlayer.stopMusic();
+		btManager.onDestroy();
+
+		super.onDestroy();
+	}
+
+	/*
+	private void scanDevices(){
+		// Launch the DeviceListActivity to see devices and do scan
+		Intent serverIntent = new Intent(this, DeviceListActivity.class);
+		startActivityForResult(serverIntent, BluetoothManager.REQUEST_CONNECT_DEVICE);
+	}
+
+	private void discoverDevices(){
+		btManager.ensureDiscoverable();
+	}
+	*/
+
+	public boolean onCreateOptionsMenu(Menu menu) {
+		return btManager.onCreateOptionsMenu(menu);
+	}
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+		return btManager.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		btManager.onActivityResult(requestCode, resultCode, data);
+	
+	}
+
+	// The Handler that gets information back from the BluetoothService
+	private final Handler btHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case BluetoothManager.MESSAGE_STATE_CHANGE:
+				if(D) Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
+				switch (msg.arg1) {
+				case BluetoothService.STATE_CONNECTED:
+					
+					/*
+						mTitle.setText(R.string.title_connected_to);
+						mTitle.append(mConnectedDeviceName);
+						mConversationArrayAdapter.clear();
+					 */
+					break;
+				case BluetoothService.STATE_CONNECTING:
+					//mTitle.setText(R.string.title_connecting);
+					break;
+				case BluetoothService.STATE_LISTEN:
+				case BluetoothService.STATE_NONE:
+					//mTitle.setText(R.string.title_not_connected);
+					break;
+				}
+				break;
+
+			case BluetoothManager.MESSAGE_WRITE: //this is the message that was sent, use only if confirmation is needed
+				byte[] writeBuf = (byte[]) msg.obj;
+				// construct a string from the buffer
+				String writeMessage = new String(writeBuf);
+				//mConversationArrayAdapter.add("Me:  " + writeMessage);
+				break;
+
+			case BluetoothManager.MESSAGE_READ: //this is the message received from the other mobile
+				byte[] readBuf = (byte[]) msg.obj;
+				// construct a string from the valid bytes in the buffer
+				String readMessage = new String(readBuf, 0, msg.arg1);
+				
+				
+				
+				break;
+
+			case BluetoothManager.MESSAGE_DEVICE_NAME:
+				// save the connected device's name
+				mConnectedDeviceName = msg.getData().getString(BluetoothManager.DEVICE_NAME);
+				Toast.makeText(getApplicationContext(), "Connected to "
+						+ mConnectedDeviceName, Toast.LENGTH_SHORT).show();
+				break;
+
+			case BluetoothManager.MESSAGE_TOAST:
+				Toast.makeText(getApplicationContext(), msg.getData().getString(BluetoothManager.TOAST),
+						Toast.LENGTH_SHORT).show();
+				
+				//check if any game was going on, if so, close it!
+				if(game != null)
+					game.close();
+				break;
+
+			}
+		}
+	};
+
+
+}

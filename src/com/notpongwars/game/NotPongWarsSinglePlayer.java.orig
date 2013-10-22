@@ -1,0 +1,198 @@
+package com.notpongwars.game;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Align;
+import android.graphics.Point;
+import android.graphics.Rect;
+
+import com.notpongwars.core.GamePanel;
+import com.notpongwars.game.Paddle.PaddleSide;
+
+public class NotPongWarsSinglePlayer extends GamePanel {
+
+	private static final int NET_COLOR = Color.GRAY;
+	private static final int SCORE_COLOR = Color.GRAY;
+
+	private Paint paint;
+
+	protected Point screenSize;
+
+<<<<<<< local
+	//private Sprite background;
+=======
+>>>>>>> other
+	protected Player leftPaddle;
+	protected Player rightPaddle;
+	protected Ball ball;
+<<<<<<< local
+=======
+	
+	protected CollisionSystem collisionSystem;
+>>>>>>> other
+
+	protected int endScore;
+
+
+	protected GameSettings settings;
+	/**
+	 * Gets the current game settings.
+	 * @return Game Settings.
+	 */
+	protected GameSettings getGameSettings() { return this.settings; }
+
+
+	public NotPongWarsSinglePlayer(Context context, GameSettings settings) {
+		super(context);
+
+		this.settings = settings;
+		
+		this.paint = new Paint();
+	}
+
+	@Override
+	public void onInitialize() {
+		Resources res = getResources();
+
+		this.endScore = settings.getEndScore();
+		screenSize = new Point(getWidth(), getHeight());
+
+		initializeBall(res);
+		initializeLeftPlayer(res);
+		initializeRightEnemy(res);
+
+		ball.addPaddle(leftPaddle);
+		ball.addPaddle(rightPaddle);
+		
+		collisionSystem = new CollisionSystem(leftPaddle, rightPaddle);
+	}
+
+	@Override
+	public void onUpdate() {
+		checkGameOver();
+
+		leftPaddle.update();
+		rightPaddle.update();
+		ball.update();
+		
+		collisionSystem.update();
+	}
+
+	@Override
+<<<<<<< local
+	public void onDraw(Canvas canvas) {
+		//background.draw(canvas);
+		Paint p = new Paint();
+		p.setARGB(255, 255, 255, 255);
+=======
+	public void onDraw(Canvas canvas) {		
+		drawBackground(canvas);
+		drawScore(canvas);
+>>>>>>> other
+
+<<<<<<< local
+		// hammered code
+		// Alison- Mete isto num metodo drawBackground para facilitar no futuro.
+		int netWidth = (int)(screenSize.x * 0.01f);
+		int netX = (screenSize.x / 2) - netWidth / 2;
+		canvas.drawRect(new Rect(netX, 0, netX + netWidth, screenSize.y), p);
+
+=======
+>>>>>>> other
+		leftPaddle.draw(canvas);
+		rightPaddle.draw(canvas);
+		ball.draw(canvas);
+<<<<<<< local
+
+		p.setTextSize(screenSize.x / 4);
+		p.setTextAlign(Align.CENTER);
+		canvas.drawText("" + leftPaddle.getScore(), getWidth() / 4, getHeight() / 2 + 0, p);
+		canvas.drawText("" + rightPaddle.getScore(), getWidth() - (getWidth() / 4), getHeight() / 2 + 0, p);
+=======
+>>>>>>> other
+	}
+
+<<<<<<< local
+=======
+	protected void drawBackground(Canvas canvas) {
+		paint.setColor(NET_COLOR);
+
+		int netWidth = (int)(screenSize.x * 0.01f);
+		int netX = (screenSize.x / 2) - netWidth / 2;
+		canvas.drawRect(new Rect(netX, 0, netX + netWidth, screenSize.y), paint);
+	}
+
+	private void drawScore(Canvas canvas) {
+		paint.setColor(SCORE_COLOR);
+
+		paint.setTextSize(screenSize.x / 4);
+		paint.setTextAlign(Align.CENTER);
+		canvas.drawText("" + leftPaddle.getScore(), getWidth() / 4, getHeight() / 2 + 0, paint);
+		canvas.drawText("" + rightPaddle.getScore(), getWidth() - (getWidth() / 4), getHeight() / 2 + 0, paint);
+	}
+
+>>>>>>> other
+	private void checkGameOver() {
+		if(leftPaddle.getScore() >= settings.getEndScore() || rightPaddle.getScore() >= settings.getEndScore()) {
+			close();
+		}
+	}
+
+	/**
+	 * Initialize the ball.
+	 * @requires leftPaddle and rightPaddle to be initialized first.
+	 * @param res
+	 */
+	protected void initializeBall(Resources res){
+		ball = new Ball(screenSize, settings);
+		ball.load(res);
+<<<<<<< local
+	}
+
+	protected void initializeDummyBall(Resources res){
+		ball = new DummyBall(screenSize, settings);
+		ball.load(res);
+
+=======
+		//ball.addPaddle(leftPaddle); ball.addPaddle(rightPaddle);
+>>>>>>> other
+	}
+
+	protected void initializeLeftPlayer(Resources res){
+		leftPaddle = new Player(PaddleSide.LEFT, screenSize);
+		leftPaddle.load(res);
+	}
+
+	protected void initializeRightPlayer(Resources res){
+		rightPaddle = new Player(PaddleSide.RIGHT, screenSize);
+		rightPaddle.load(res);
+	}
+
+<<<<<<< local
+	protected void initializeLeftDummyPlayer(Resources res){
+		leftPaddle = new DummyPlayer(PaddleSide.LEFT, screenSize);
+		leftPaddle.load(res);
+	}
+
+	protected void initializeRightDummyPlayer(Resources res){
+		rightPaddle = new DummyPlayer(PaddleSide.RIGHT, screenSize);
+=======
+	private void initializeRightEnemy(Resources res){
+		rightPaddle = new Enemy(PaddleSide.RIGHT, screenSize, ball, settings.getEnemyPaddleSpeed(), settings.getEnemyAwareness());
+>>>>>>> other
+		rightPaddle.load(res);
+	}
+
+<<<<<<< local
+	private void initializeRightEnemy(Resources res){
+		rightPaddle = new Enemy(PaddleSide.RIGHT, screenSize, ball, settings.getEnemyPaddleSpeed(), settings.getEnemyAwareness());
+		
+		rightPaddle.load(res);
+	}
+
+=======
+>>>>>>> other
+}

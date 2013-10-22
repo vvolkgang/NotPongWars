@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:padding="10dip" >
+
+		<LinearLayout
+		    android:id="@+id/layout"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical" >
+
+			<TextView
+			    android:id="@+id/about_label"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text="@string/help_text"
+			    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+			<TextView
+			    android:id="@+id/spacer"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text=""
+			    android:textAppearance="?android:attr/textAppearanceMedium" />
+			<TextView 
+			    android:id="@+id/controls_label"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text="@string/controls_title"
+			    android:textAppearance="?android:attr/textAppearanceMedium" />
+			
+			<TextView
+			    android:id="@+id/controls_content"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text="@string/controls_content"
+			    android:textAppearance="?android:attr/textAppearanceSmall" />
+			
+			<TextView
+			    android:id="@+id/spacer2"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text=""
+			    android:textAppearance="?android:attr/textAppearanceMedium" />
+			
+			<TextView
+			    android:id="@+id/authors_label"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text="@string/help_authors"
+			    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+			<TextView
+			    android:id="@+id/author1"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text="@string/help_author_1"
+			    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+			<TextView
+			    android:id="@+id/author2"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:text="@string/help_author_2"
+			    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+			<TextView
+			    android:id="@+id/textView1"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:text="IPCA 2012"
+			    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		</LinearLayout>
+
+</ScrollView>

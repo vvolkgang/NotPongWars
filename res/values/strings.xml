@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="app_name">!PongWars</string>
+
+	<!-- Main Menu -->
+	<string name="single_player_label">Single Player</string>
+	<string name="multi_player_label">Multiplayer</string>
+	<string name="help_label">About</string>
+	<string name="quit_label">Quit</string>
+
+	<!-- Help Screen -->
+	<string name="help_title">Instructions</string>
+	<string name="help_text">!Pong Wars is a remake of the classic Pong.
+		In this game the player must try to push the ball into the enemy\'s wall, while avoiding it to touch his.</string>
+	<string name="controls_title">Controls</string>
+	<string name="controls_content">Both the touch screen and accelerometer sensor can be used to control the player\'s paddle.
+		One tap at the center of the screen lets the player to shoot one bullet, bullet which can be used to slow the enemy down.</string>
+	
+	<string name="help_authors">Authors</string>
+	<string name="help_author_1">Hugo \"HRuivo\" Ruivo</string>
+	<string name="help_author_2">Alison \"NoSila\" Fernandes</string>
+
+	<!-- New Game Screen -->
+	<string name="single_player_title">Difficulty</string>
+	<string name="easy_label">Easy</string>
+	<string name="normal_label">Normal</string>
+	<string name="hard_label">Hard</string>
+	<string name="hardcore_label">IMPOSSIBRU!</string>
+	
+	<string name="gamemode_title">Choose Game Mode</string>
+
+	<!-- Quit Game Screen -->
+	<string name="quit_title">Really want to leave? (Please don\'t go, don\'t
+		gooo...)
+	</string>
+	<string name="quit_yes_label">Yes</string>
+	<string name="quit_no_label">No</string>
+
+	<!-- DeviceListActivity -->
+	<string name="scanning">scanning for devices...</string>
+	<string name="select_device">select a device to connect</string>
+	<string name="none_paired">No devices have been paired</string>
+	<string name="none_found">No devices found</string>
+	<string name="title_paired_devices">Paired Devices</string>
+	<string name="title_other_devices">Other Available Devices</string>
+	<string name="button_scan">Scan for devices</string>
+
+	<!-- Multiplayer Options Menu -->
+	<string name="connect">Connect to a device</string>
+	<string name="discoverable">Create Server</string>
+
+	<!-- BluetoothManager -->
+	<string name="send">Send</string>
+	<string name="not_connected">You are not connected to a device</string>
+	<string name="bt_not_enabled_leaving">Bluetooth was not enabled. Closing Multiplayer.
+	</string>
+	<string name="title_connecting">connecting...</string>
+	<string name="title_connected_to">connected: </string>
+	<string name="title_not_connected">not connected</string>
+
+	<!-- Settings -->
+	<string name="settings_label">Settings</string>
+	<string name="settings_title">!PongWars settings</string>
+	<string name="settings_shortcut">s</string>
+
+	<string name="audio_category">Audio</string>
+	<string name="music_title">Music</string>
+	<string name="music_summary">Play background music</string>
+	<string name="sound_title">Sound Effects</string>
+	<string name="sound_summary">Play sound effects</string>
+
+	<string name="gameRules_category">Game Rules</string>
+	<string name="endScore_title">End Score</string>
+	<string name="endScore_summary">At which value should the game end.</string>
+
+	<string name="input_category">Input</string>
+	<string name="accelerometer_title">Accelometer</string>
+	<string name="accelerometer_summary">Use accelometer to move the paddle.</string>
+	
+</resources>

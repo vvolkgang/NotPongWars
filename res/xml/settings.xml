@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="@string/audio_category">
+		<CheckBoxPreference android:key="music"
+			android:title="@string/music_title" android:summary="@string/music_summary"
+			android:defaultValue="true" />
+		<CheckBoxPreference android:key="sounds"
+			android:title="@string/sound_title" android:summary="@string/sound_summary"
+			android:defaultValue="true" />
+	</PreferenceCategory>
+
+
+	<PreferenceCategory android:title="@string/gameRules_category">
+		<ListPreference android:key="endscore" android:title="@string/endScore_title"
+			android:summary="@string/endScore_summary" android:entryValues="@array/endscore"
+			android:entries="@array/endscore" android:defaultValue="5" />
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/input_category">
+		<CheckBoxPreference android:key="accelerometer"
+			android:title="@string/accelerometer_title" android:summary="@string/accelerometer_summary"
+			android:defaultValue="true" />
+		<ListPreference android:dialogTitle="Percentage of dead zone" android:title="Dead zone value" android:entryValues="@array/acceldeadzone_values" android:entries="@array/acceldeadzone" android:summary="Percentage of dead zone. The game will igore sensor's data at this value." android:defaultValue="4" android:key="acceldeadzone" android:enabled="false"/>
+		<ListPreference android:defaultValue="0" android:key="acceloffset" android:title="Sensor offset" android:entryValues="@array/acceloffset_values" android:entries="@array/acceloffset" android:summary="The amount of offset to give."/>
+	</PreferenceCategory>
+
+</PreferenceScreen>

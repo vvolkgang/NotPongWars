@@ -1,0 +1,115 @@
+package com.notpongwars.game;
+
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Paint.Align;
+import android.graphics.Point;
+import android.graphics.PointF;
+
+import com.notslip.notpongwars.R;
+import com.notpongwars.core.GamePanel;
+import com.notpongwars.core.Sprite;
+import com.notpongwars.core.bluetooth.BluetoothManager;
+import com.notpongwars.game.Paddle.PaddleSide;
+
+
+public class NotPongWarsMultiplayerGame extends NotPongWarsSinglePlayer{
+
+
+	private boolean isServer;
+	private BluetoothManager btManager;
+
+	public NotPongWarsMultiplayerGame(Context context, GameSettings settings, BluetoothManager manager){
+		super(context, settings);
+
+		btManager = manager;
+	}
+
+	@Override
+	public void onInitialize() {
+		Resources res = getResources();
+
+		screenSize = new Point(getWidth(), getHeight());
+		this.isServer = settings.getMultiplayerTypeIsServer();
+
+		initializeLeftPlayer(res);
+
+
+
+		if(isServer){
+			initializeLeftPlayer(res);
+			initializeRightDummyPlayer(res);
+			initializeBall(res);
+		}
+		else{
+			initializeLeftDummyPlayer(res);
+			initializeRightPlayer(res);
+			initializeDummyBall(res);
+		}
+
+
+
+	}
+
+	@Override
+	public void onUpdate() {
+		if(isServer){
+			checkGameOver();
+
+			leftPaddle.update();
+			ball.update();
+
+			//send info
+			btManager.sendMessage(encodeObjectInfo("paddle", leftPaddle.getPosition()));
+			btManager.sendMessage(encodeObjectInfo("ball", ball.getPosition()));
+
+		}
+		else{
+			rightPaddle.update();
+			btManager.sendMessage(encodeObjectInfo("paddle", rightPaddle.getPosition()));
+		}
+
+	}
+
+	private String encodeObjectInfo(String object, PointF point){
+		return object+";"+point.x + ";"+point.y;
+	}
+
+	private PointF decodeObjectInfo(String info){
+		String[] decoded = info.split(";");
+
+		return new PointF(Float.parseFloat(decoded[1]),Float.parseFloat(decoded[2]));
+	}
+
+	private boolean decodeEndOfGame(String info){
+		String[] decoded = info.split(";");
+
+		return decoded[0].equals("end");
+
+	}
+
+	public void serverEndedGame(){
+		close();
+	}
+
+	private void checkGameOver() {
+		if(leftPaddle.getScore() >= settings.getEndScore() || rightPaddle.getScore() >= settings.getEndScore()) {
+			btManager.sendMessage("end;");
+			close();
+		}
+	}
+
+	//players setters
+	public void setPlayerLeftScore(int score){ leftPaddle.setScore(score);}
+	public void setPlayerRightScore(int score){ rightPaddle.setScore(score);}
+	
+	public void setPlayerLeftPosition(PointF position){leftPaddle.setPosition(position);}
+	public void setPlayerRightPosition(PointF position){rightPaddle.setPosition(position);}
+	
+	public void resetPlayerLeft(){leftPaddle.reset();}
+	public void resetPlayerRight(){rightPaddle.reset();}
+
+}
